@@ -1,5 +1,5 @@
 import React from "react";
-import { searchBarPlaceholder } from "./../../utils/constants";
+import { SEARCH_BAR_PLACEHOLDER } from "./../../utils/constants";
 
 const SearchBar = (props) => {
   const { onSearch } = props;
@@ -14,7 +14,7 @@ const SearchBar = (props) => {
     <div>
       <input
         type="text"
-        placeholder={searchBarPlaceholder}
+        placeholder={SEARCH_BAR_PLACEHOLDER}
         onKeyDown={(e) => onKeyDownHandler(e)}
       />
     </div>

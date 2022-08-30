@@ -1,14 +1,16 @@
 import React from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import MovieList from "../../components/MovieList/MovieList";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const SearchResults = (props) => {
-    const {setSearchTerm} = props;
+  const { setSearchTerm, getMovieId, movies } = props;
 
   return (
     <>
-      <SearchBar onSearch={value => setSearchTerm(value)} />
-      <MovieList movies={props.movies} />
+      <SearchBar onSearch={(value) => setSearchTerm(value)} />
+      {movies?.map((movie) => (
+        <MovieCard key={movie.imdbID} movie={movie} getMovieId={getMovieId} />
+      ))}
     </>
   );
 };

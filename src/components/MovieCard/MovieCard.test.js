@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import MovieList from "./MovieList";
+import MovieCard from "./MovieCard";
 
 test("renders MovieList", () => {
-  render(<MovieList />);
+  render(<MovieCard />);
 });
