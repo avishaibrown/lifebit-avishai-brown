@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.css";
-import MovieList from "./components/MovieList/MovieList";
 import { API_KEY } from "./utils/constants";
 import omdbClient from "./axios";
-
-const API_URL = "/?apiKey=" + API_KEY + "&s=abc";
+import SearchResults from "./containers/SearchResults/SearchResults";
 
 const App = () => {
   const [movieList, setMovieList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const getMovieSearchResults = useRef(() => {});
 
-  const getMovieSearchResults = async () => {
-    let searchResponse = []
-    await omdbClient
-      .get(API_URL)
-      .then((response) => {
-        searchResponse = response.data.Search
-      });
+  getMovieSearchResults.current = async () => {
+    let searchResponse = [];
+    let url = "/?apiKey=" + API_KEY + "&s=" + searchTerm;
+
+    await omdbClient.get(url).then((response) => {
+      searchResponse = response.data.Search;
+    });
 
     setMovieList(searchResponse);
   };
 
   useEffect(() => {
-    getMovieSearchResults();
-  }, []);
+    searchTerm !== undefined && getMovieSearchResults.current();
+  }, [searchTerm]);
 
   return (
     <div className="App">
-      <MovieList movies={movieList} />;
+      <SearchResults setSearchTerm={setSearchTerm} movies={movieList} />
     </div>
   );
 };
