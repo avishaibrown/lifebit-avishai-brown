@@ -1,23 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 import { SEARCH_BAR_PLACEHOLDER } from "./../../utils/constants";
 
 const SearchBar = (props) => {
   const { onSearch } = props;
+  const [searchValue, setSearchValue] = useState("");
 
-  const onKeyDownHandler = (event) => {
-    if (event.key === "Enter" && !!event.target.value) {
-      onSearch(event.target.value);
-    }
-  };
+  //TODO: Get Enter key to Search
+  // const onKeyDownHandler = (e) => {
+  //   if (!!e.target.value && e.keyCode === 13) {
+  //     onSearch(searchValue);
+  //   }
+  // };
 
   return (
-    <div>
-      <input
-        type="text"
+    <Paper
+      component="form"
+      sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}
+    >
+      <InputBase
+        sx={{ ml: 1, flex: 1 }}
         placeholder={SEARCH_BAR_PLACEHOLDER}
-        onKeyDown={(e) => onKeyDownHandler(e)}
+        onChange={(e) => setSearchValue(e.target.value)}
+        // onKeyDown={(e) => onKeyDownHandler(e)}
+        autoFocus={true}
+        fullWidth={true}
+        value={searchValue}
       />
-    </div>
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        onClick={() => onSearch(searchValue)}
+      >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 };
 

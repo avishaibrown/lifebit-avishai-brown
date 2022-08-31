@@ -1,17 +1,31 @@
 import React from "react";
-import SearchBar from "../../components/SearchBar/SearchBar";
 import MovieCard from "../../components/MovieCard/MovieCard";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 
 const SearchResults = (props) => {
-  const { setSearchTerm, getMovieId, movies } = props;
+  const { setMovieId, movies } = props;
 
   return (
-    <>
-      <SearchBar onSearch={(value) => setSearchTerm(value)} />
-      {movies?.map((movie) => (
-        <MovieCard key={movie.imdbID} movie={movie} getMovieId={getMovieId} />
-      ))}
-    </>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        {movies?.map((movie) => (
+          <Grid item xs={2} sm={2} md={2} key={movie.imdbID}>
+            <MovieCard
+              key={movie.imdbID}
+              movie={movie}
+              setMovieId={setMovieId}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

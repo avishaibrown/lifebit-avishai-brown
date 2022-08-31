@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   ADD_TO_FAVOURITES,
   IMDB,
@@ -11,16 +11,23 @@ import {
 
 const MovieDetails = (props) => {
   const { movieDetails } = props;
-  let imdbRating, rottenTomatoesRating;
+  let imdbRating,
+    rottenTomatoesRating = null;
+  const getRatings = useRef(() => {});
 
-  //   if (movieDetails !== {}) {
-  //     for (const rating of movieDetails?.Ratings) {
-  //       if (rating.Source === IMDB) {
-  //         imdbRating = rating.Value;
-  //       } else if (rating.Source === ROTTEN_TOMATOES)
-  //         rottenTomatoesRating = rating.Value;
-  //     }
-  //   }
+  getRatings.current = () => {
+    for (const index in movieDetails?.Ratings) {
+      const rating = movieDetails?.Ratings[index];
+      if (rating.Source === IMDB) {
+        imdbRating = rating.Value;
+      } else if (rating.Source === ROTTEN_TOMATOES)
+        rottenTomatoesRating = rating.Value;
+    }
+  };
+
+  useEffect(() => {
+    movieDetails !== {} && getRatings.current();
+  }, [movieDetails]);
 
   return (
     <>
@@ -28,21 +35,21 @@ const MovieDetails = (props) => {
       <p>{movieDetails?.Year}</p>
       <p>{movieDetails?.Rated}</p>
       <p>{movieDetails?.Title}</p>
-      {imdbRating && <p>{imdbRating}</p>}
+      <p>{imdbRating}</p>
       {rottenTomatoesRating && <p>{rottenTomatoesRating}</p>}
       <button>{ADD_TO_FAVOURITES}</button>
       <p>{PLOT}</p>
       <p>{movieDetails?.Plot}</p>
       <p>{CAST}</p>
-      {/* {movieDetails?.Cast.map((member) => (
+      {/* {Object.values(movieDetails?.Actors).map((member) => (
         <li>{member}</li>
-      ))}
+      ))} */}
       <p>{GENRE}</p>
-      {movieDetails?.Genre.map((genre) => (
+      {/* {movieDetails?.Genre.map((genre) => (
         <li>{genre}</li>
-      ))}
+      ))} */}
       <p>{DIRECTOR}</p>
-      {movieDetails?.Director.map((name) => (
+      {/* {movieDetails?.Director.map((name) => (
         <li>{name}</li>
       ))} */}
     </>
