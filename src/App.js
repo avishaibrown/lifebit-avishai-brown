@@ -68,8 +68,11 @@ const App = () => {
   );
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div style={{ padding: "2rem" }} className="App">
       <Container maxWidth="md">
+        <header>
+          <img src="/images/logo.png" alt="What's in" />
+        </header>
         <Suspense fallback={LOADING}>{routes}</Suspense>
       </Container>
     </div>

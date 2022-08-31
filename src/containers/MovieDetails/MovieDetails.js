@@ -5,7 +5,12 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   ADD_TO_FAVOURITES,
   IMDB,
@@ -60,6 +65,10 @@ const MovieDetails = (props) => {
     movieDetails?.Genre && getGenres.current();
   }, [movieDetails]);
 
+  //TODO: Change Add To Favourites button to chip, persistently store favourites in array of imdbIDs
+
+  //TODO: Fix styling
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -67,15 +76,37 @@ const MovieDetails = (props) => {
           <NavLink to="/search" style={{ textDecoration: "none" }}>
             <ArrowBackIcon />
           </NavLink>
-          <Grid item xs={6} className="infoAboveTitle">
+          <Stack
+            direction="row"
+            spacing={2}
+            divider={<Divider orientation="vertical" flexItem light={true} />}
+          >
             <p>{movieDetails?.Runtime}</p>
             <p>{movieDetails?.Year}</p>
             <p>{movieDetails?.Rated}</p>
-          </Grid>
-          <h1>{movieDetails?.Title}</h1>
-          <p>{imdbRating}</p>
-          {rottenTomatoesRating && <p>{rottenTomatoesRating}</p>}
-          <button>{ADD_TO_FAVOURITES}</button>
+          </Stack>
+          <h1 style={{ color: "white" }}>{movieDetails?.Title}</h1>
+          <Stack direction="row" spacing={1}>
+            <Chip
+              label="idmb Rating"
+              avatar={<Avatar alt="imdb" src="/images/logo-imdb.png" />}
+            />
+            <Chip
+              label="RT Rating"
+              avatar={
+                <Avatar
+                  alt="rotten tomatoes"
+                  src="/images/logo-rotten-tomatoes.png"
+                />
+              }
+            />
+            <Chip
+              label={ADD_TO_FAVOURITES}
+              icon={<FavoriteIcon />}
+              variant="outlined"
+              onClick={() => {}}
+            />
+          </Stack>
           <p>{PLOT}</p>
           <p>{movieDetails?.Plot}</p>
           {actorsArray && (

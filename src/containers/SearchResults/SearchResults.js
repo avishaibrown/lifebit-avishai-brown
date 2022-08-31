@@ -33,15 +33,13 @@ const SearchResults = (props) => {
         </Grid>
       ) : (
         <Container maxWidth={"sm"}>
-          <Grid justifyContent="center" zeroMinWidth p={5}>
-            <p>
-              <img
-                src="./images/illustrations-empty-state.png"
-                alt="empty state"
-              ></img>
-            </p>
-            <p>{NO_RESULTS_FIRST_LINE}</p>
-            <p>{NO_RESULTS_SECOND_LINE}</p>
+          <Grid justifyContent="center">
+            <img
+              src="./images/illustration-empty-state.png"
+              alt="empty state"
+            />
+            <h3 style={{ color: "white" }}>{NO_RESULTS_FIRST_LINE}</h3>
+            <p style={{ color: "grey" }}>{NO_RESULTS_SECOND_LINE}</p>
           </Grid>
         </Container>
       )}

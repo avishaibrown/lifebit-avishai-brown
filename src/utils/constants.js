@@ -1,5 +1,4 @@
 export const LOADING = "Loading...";
-export const BACK_TO_SEARCH = "Back To Search";
 
 export const API_KEY = "dbb0b270";
 
