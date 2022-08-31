@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
+import Button from "@mui/material/Button";
 import {
   ADD_TO_FAVOURITES,
   IMDB,
@@ -7,6 +9,7 @@ import {
   CAST,
   GENRE,
   DIRECTOR,
+  BACK_TO_SEARCH,
 } from "../../utils/constants";
 
 const MovieDetails = (props) => {
@@ -31,6 +34,9 @@ const MovieDetails = (props) => {
 
   return (
     <>
+      <NavLink to="/search" style={{ textDecoration: "none" }}>
+        <Button variant="contained">{BACK_TO_SEARCH}</Button>
+      </NavLink>
       <p>{movieDetails?.Runtime}</p>
       <p>{movieDetails?.Year}</p>
       <p>{movieDetails?.Rated}</p>

@@ -1,3 +1,6 @@
+export const LOADING = "Loading...";
+export const BACK_TO_SEARCH = "Back To Search";
+
 export const API_KEY = "dbb0b270";
 
 export const SEARCH_BAR_PLACEHOLDER = "Type to search for a movie";

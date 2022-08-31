@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
-import { API_KEY } from "./utils/constants";
+import { API_KEY, LOADING } from "./utils/constants";
 import omdbClient from "./axios";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./containers/SearchResults/SearchResults";
@@ -45,18 +46,33 @@ const App = () => {
     movieId && getMovieDetails.current();
   }, [movieId]);
 
-  //TODO: Add navigation between routes /search and /details
-  return (
-    <Container maxWidth="md">
-      <div style={{ padding: "20px" }}>
-        <SearchBar onSearch={(value) => setSearchTerm(value)} />
-      </div>
+  const routes = (
+    <Routes>
+      <Route
+        path="/search"
+        element={
+          <>
+            <div style={{ padding: "20px" }}>
+              <SearchBar onSearch={(value) => setSearchTerm(value)} />
+            </div>
+            <SearchResults setMovieId={setMovieId} movies={movieList} />
+          </>
+        }
+      />
+      <Route
+        path="/details"
+        element={<MovieDetails movieDetails={movieDetails} />}
+      />
+      <Route path="*" element={<Navigate replace to="/search" />} />
+    </Routes>
+  );
 
-      <div style={{ padding: "20px" }}>
-        <SearchResults setMovieId={setMovieId} movies={movieList} />
-        {movieId && <MovieDetails movieDetails={movieDetails} />}
-      </div>
-    </Container>
+  return (
+    <div style={{ padding: "2rem" }}>
+      <Container maxWidth="md">
+        <Suspense fallback={LOADING}>{routes}</Suspense>
+      </Container>
+    </div>
   );
 };
 
