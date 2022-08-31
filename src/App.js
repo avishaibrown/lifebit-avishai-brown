@@ -1,50 +1,39 @@
-import React, { useEffect, useState, useRef, Suspense } from "react";
+import React, { useEffect, useState, useCallback, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "./store/actions";
 import "./App.css";
-import { API_KEY, LOADING } from "./utils/constants";
-import omdbClient from "./axios";
+import { LOADING } from "./utils/constants";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./containers/SearchResults/SearchResults";
 import MovieDetails from "./containers/MovieDetails/MovieDetails";
 import Container from "@mui/material/Container";
 
 const App = () => {
-  const [movieList, setMovieList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [movieDetails, setMovieDetails] = useState({});
-  const [movieId, setMovieId] = useState("");
-  const getMovieSearchResults = useRef(() => {});
-  const getMovieDetails = useRef(() => {});
+  const [imdbID, setImdbID] = useState("");
 
-  getMovieSearchResults.current = async () => {
-    let searchResponse = [];
-    let url = "/?apiKey=" + API_KEY + "&s=" + searchTerm;
+  const movies = useSelector((state) => state.movies);
+  const details = useSelector((state) => state.details);
 
-    await omdbClient.get(url).then((response) => {
-      searchResponse = response.data.Search;
-    });
+  const dispatch = useDispatch();
 
-    setMovieList(searchResponse);
-  };
+  const fetchMoviesHandler = useCallback(
+    () => dispatch(actions.fetchMovies(searchTerm)),
+    [dispatch, searchTerm]
+  );
 
-  getMovieDetails.current = async () => {
-    let detailsResponse = [];
-    let url = "/?apiKey=" + API_KEY + "&i=" + movieId;
-
-    await omdbClient.get(url).then((response) => {
-      detailsResponse = response.data;
-    });
-
-    setMovieDetails(detailsResponse);
-  };
+  const fetchMovieDetailsHandler = useCallback(() => {
+    dispatch(actions.fetchMovieDetails(imdbID));
+  }, [dispatch, imdbID]);
 
   useEffect(() => {
-    searchTerm !== undefined && getMovieSearchResults.current();
-  }, [searchTerm]);
+    searchTerm !== undefined && fetchMoviesHandler();
+  }, [searchTerm, fetchMoviesHandler]);
 
   useEffect(() => {
-    movieId && getMovieDetails.current();
-  }, [movieId]);
+    imdbID && fetchMovieDetailsHandler();
+  }, [imdbID, fetchMovieDetailsHandler]);
 
   const routes = (
     <Routes>
@@ -55,13 +44,13 @@ const App = () => {
             <div style={{ padding: "20px" }}>
               <SearchBar onSearch={(value) => setSearchTerm(value)} />
             </div>
-            <SearchResults setMovieId={setMovieId} movies={movieList} />
+            <SearchResults setImdbID={setImdbID} movies={movies} />
           </>
         }
       />
       <Route
         path="/details"
-        element={<MovieDetails movieDetails={movieDetails} />}
+        element={<MovieDetails movieDetails={details} />}
       />
       <Route path="*" element={<Navigate replace to="/search" />} />
     </Routes>

@@ -1,15 +1,18 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
+import {
+  CardMedia,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-// import CardContent from "@mui/material/CardContent";
-// import IconButton from "@mui/material/IconButton";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
-// import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const MovieCard = (props) => {
-  const { setMovieId, movie } = props;
+  const { setImdbID, movie } = props;
 
   return (
     //TODO: Get imdbID appended to link /details/:imdbID
@@ -24,9 +27,18 @@ const MovieCard = (props) => {
             height="194"
             image={movie.Poster}
             alt="movie"
-            onClick={() => setMovieId(movie.imdbID)}
+            onClick={() => setImdbID(movie.imdbID)}
           />
         </CardActionArea>
+        <CardContent>
+          <Typography paragraph>{movie.Title}</Typography>
+          <Typography>{movie.Year}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton>
+            <FavoriteIcon />
+          </IconButton>
+        </CardActions>
       </Card>
     </Link>
   );

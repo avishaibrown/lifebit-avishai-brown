@@ -12,13 +12,13 @@ import Avatar from "@mui/material/Avatar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
-  ADD_TO_FAVOURITES,
   IMDB,
   ROTTEN_TOMATOES,
   PLOT,
   CAST,
   GENRE,
   DIRECTOR,
+  FAVOURITES,
 } from "../../utils/constants";
 
 const MovieDetails = (props) => {
@@ -101,7 +101,7 @@ const MovieDetails = (props) => {
               }
             />
             <Chip
-              label={ADD_TO_FAVOURITES}
+              label={FAVOURITES}
               icon={<FavoriteIcon />}
               variant="outlined"
               onClick={() => {}}

@@ -9,7 +9,7 @@ import {
 } from "../../utils/constants";
 
 const SearchResults = (props) => {
-  const { setMovieId, movies } = props;
+  const { setImdbID, movies } = props;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -26,7 +26,7 @@ const SearchResults = (props) => {
               <MovieCard
                 key={movie.imdbID}
                 movie={movie}
-                setMovieId={setMovieId}
+                setImdbID={setImdbID}
               />
             </Grid>
           ))}
