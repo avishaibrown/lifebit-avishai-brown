@@ -12,6 +12,10 @@ const MovieCard = (props) => {
   const { setMovieId, movie } = props;
 
   return (
+    //TODO: Get imdbID appended to link /details/:imdbID
+    //TODO: Update movie card style to include title, year and favourites button
+    //TODO: Read persistent state to check if movie favourites button is filled or not
+
     <Link to="/details">
       <Card sx={{ maxWidth: 345 }} key={movie.imdbID}>
         <CardActionArea>
