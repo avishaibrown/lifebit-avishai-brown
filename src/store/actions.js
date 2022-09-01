@@ -3,6 +3,7 @@ import {
   FETCH_MOVIES_START,
   FETCH_MOVIES_SUCCESS,
   FETCH_MOVIES_FAIL,
+  FETCH_FAVOURITES,
   ADD_TO_FAVOURITES,
   FETCH_MOVIE_DETAILS,
   FETCH_MOVIE_DETAILS_START,
@@ -34,6 +35,13 @@ export const fetchMoviesFail = (error) => {
   return {
     type: FETCH_MOVIES_FAIL,
     error: error,
+  };
+};
+
+export const fetchFavourites = (favouritesArray) => {
+  return {
+    type: FETCH_FAVOURITES,
+    favourites: favouritesArray,
   };
 };
 

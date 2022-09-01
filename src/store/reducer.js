@@ -7,6 +7,7 @@ import {
   FETCH_MOVIE_DETAILS_SUCCESS,
   FETCH_MOVIE_DETAILS_FAIL,
   ADD_TO_FAVOURITES,
+  FETCH_FAVOURITES,
 } from "../utils/constants";
 
 const initialState = {
@@ -29,8 +30,13 @@ const fetchMoviesFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
 
+const fetchFavourites = (state, action) => {
+  return updateObject(state, { favourites: action.favourites });
+};
+
 const addToFavourites = (state, action) => {
   const newFavouritesArray = [...state.favourites, action.imdbID];
+  localStorage.setItem("movie-favourites", JSON.stringify(newFavouritesArray));
   return updateObject(state, { favourites: newFavouritesArray });
 };
 
@@ -54,6 +60,8 @@ const reducer = (state = initialState, action) => {
       return fetchMoviesSuccess(state, action);
     case FETCH_MOVIES_FAIL:
       return fetchMoviesFail(state, action);
+    case FETCH_FAVOURITES:
+      return fetchFavourites(state, action);
     case ADD_TO_FAVOURITES:
       return addToFavourites(state, action);
     case FETCH_MOVIE_DETAILS_START:

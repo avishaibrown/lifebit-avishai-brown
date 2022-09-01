@@ -23,6 +23,7 @@ import {
   DIRECTOR,
   ADD_FAVOURITES,
   ADDED_TO_FAVOURITES,
+  NOT_AVAILABLE,
 } from "../../utils/constants";
 import { buildArray, buildList } from "./../../utils/util";
 
@@ -33,6 +34,7 @@ const MovieDetails = () => {
   const directors = buildArray(useSelector((state) => state.details.Director));
   const genres = buildArray(useSelector((state) => state.details.Genre));
   const favourites = useSelector((state) => state.favourites);
+  const loading = useSelector((state) => state.loading);
 
   let imdbRating = null;
   let rottenTomatoesRating = null;
@@ -47,11 +49,16 @@ const MovieDetails = () => {
 
   const dispatch = useDispatch();
 
-  const addToFavouritesHandler = (id) => dispatch(actions.addToFavourites(id));
+  const addToFavouritesHandler = (id) => {
+    dispatch(actions.addToFavourites(id));
+    sessionStorage.setItem("movie-favourites", JSON.stringify(favourites));
+  };
 
   //TODO: Fix styling
 
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={6}>
@@ -106,7 +113,15 @@ const MovieDetails = () => {
         <Grid item xs={6}>
           <Card key={details?.imdbID}>
             <CardActionArea>
-              <CardMedia component="img" image={details?.Poster} alt="movie" />
+              <CardMedia
+                component="img"
+                image={
+                  details?.Poster === NOT_AVAILABLE
+                    ? "./images/No-image-found.jpg"
+                    : details.Poster
+                }
+                alt="movie"
+              />
             </CardActionArea>
           </Card>
         </Grid>

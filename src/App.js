@@ -18,6 +18,18 @@ const App = () => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    fetchFavouritesHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchFavouritesHandler = useCallback(() => {
+    const favouritesArray = JSON.parse(
+      localStorage.getItem("movie-favourites")
+    );
+    dispatch(actions.fetchFavourites(favouritesArray));
+  }, [dispatch]);
+
   const fetchMoviesHandler = useCallback(
     () => dispatch(actions.fetchMovies(searchTerm)),
     [dispatch, searchTerm]
