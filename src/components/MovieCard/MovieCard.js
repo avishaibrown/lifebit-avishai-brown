@@ -10,6 +10,7 @@ import { NOT_AVAILABLE } from "../../utils/constants";
 
 const MovieCard = (props) => {
   const { setImdbID, movie } = props;
+  //control appearance of title, year and favouriteIcon on hover
   const [showOverlay, setShowOverlay] = useState(false);
 
   const favourites = useSelector((state) => state.favourites);

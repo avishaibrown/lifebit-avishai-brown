@@ -43,6 +43,7 @@ const MovieDetails = () => {
   let imdbRating = null;
   let rottenTomatoesRating = null;
 
+  //iterate through Ratings array in response to see if imdb and rt are present
   for (const index in ratings) {
     const rating = ratings[index];
     if (rating.Source === IMDB) {

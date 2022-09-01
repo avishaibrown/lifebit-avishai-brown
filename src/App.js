@@ -8,6 +8,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./containers/SearchResults/SearchResults";
 import MovieDetails from "./containers/MovieDetails/MovieDetails";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,6 +19,7 @@ const App = () => {
 
   const dispatch = useDispatch();
 
+  //get any favourites stored persistently on app load
   useEffect(() => {
     fetchFavouritesHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,9 +55,9 @@ const App = () => {
         path="/search"
         element={
           <>
-            <div style={{ padding: "20px" }}>
+            <Container sx={{ padding: "20px" }}>
               <SearchBar onSearch={(value) => setSearchTerm(value)} />
-            </div>
+            </Container>
             <SearchResults setImdbID={setImdbID} movies={movies} />
           </>
         }
@@ -71,9 +73,15 @@ const App = () => {
   return (
     <div style={{ padding: "2rem" }} className="App">
       <Container maxWidth="md">
-        <header>
-          <img src="/images/logo.png" alt="What's in" />
-        </header>
+        <Box
+          component="img"
+          sx={{
+            height: 40,
+            width: 140,
+          }}
+          alt="What's in"
+          src="/images/logo.png"
+        />
         <Suspense fallback={LOADING}>{routes}</Suspense>
       </Container>
     </div>
