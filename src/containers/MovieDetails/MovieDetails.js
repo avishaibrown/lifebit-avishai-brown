@@ -14,6 +14,10 @@ import Avatar from "@mui/material/Avatar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import IconButton from "@mui/material/IconButton";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 import {
   IMDB,
   ROTTEN_TOMATOES,
@@ -54,61 +58,116 @@ const MovieDetails = () => {
     sessionStorage.setItem("movie-favourites", JSON.stringify(favourites));
   };
 
-  //TODO: Fix styling
-
   return loading ? (
-    <div>Loading...</div>
+    <Backdrop
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loading}
+    >
+      <CircularProgress />
+    </Backdrop>
   ) : (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container>
-        <Grid item xs={6}>
-          <NavLink to="/search" style={{ textDecoration: "none" }}>
-            <ArrowBackIcon />
-          </NavLink>
+    <>
+      <NavLink to="/search" style={{ textDecoration: "none" }}>
+        <IconButton sx={{ backgroundColor: "white", float: "left" }}>
+          <ArrowBackIcon color={"primary"} />
+        </IconButton>
+      </NavLink>
+      <Grid container spacing={2}>
+        <Grid item xs={6} alignItems={"flex-start"} p={"16px"}>
           <Stack
             direction="row"
             spacing={2}
-            divider={<Divider orientation="vertical" flexItem light={true} />}
+            divider={
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{ background: "white" }}
+              />
+            }
+            sx={{ paddingBottom: "2rem" }}
           >
-            <p>{details?.Runtime}</p>
-            <p>{details?.Year}</p>
-            <p>{details?.Rated}</p>
+            {details?.Runtime !== NOT_AVAILABLE && (
+              <Typography color={"white"}>{details?.Runtime}</Typography>
+            )}
+            {details?.Year !== NOT_AVAILABLE && (
+              <Typography color={"white"}>{details?.Year}</Typography>
+            )}
+            {details?.Rated !== NOT_AVAILABLE && (
+              <Typography color={"white"}>{details?.Rated}</Typography>
+            )}
           </Stack>
-          <h1 style={{ color: "white" }}>{details?.Title}</h1>
-          <Stack direction="row" spacing={1}>
+          <Typography
+            variant={"h3"}
+            gutterBottom
+            align={"left"}
+            color={"white"}
+          >
+            {details?.Title}
+          </Typography>
+          <Stack direction="row" spacing={2} paddingBottom={3}>
             {imdbRating && (
               <Chip
                 label={imdbRating}
+                variant={"outlined"}
                 avatar={<Avatar alt="imdb" src="/images/logo-imdb.png" />}
+                sx={{ color: "white" }}
               />
             )}
             {rottenTomatoesRating && (
               <Chip
                 label={rottenTomatoesRating}
+                variant={"outlined"}
                 avatar={
                   <Avatar
                     alt="rotten tomatoes"
                     src="/images/logo-rotten-tomatoes.png"
                   />
                 }
+                sx={{ color: "white" }}
               />
             )}
             {/* TODO: Add remove favourites functionality */}
             {favourites.includes(details?.imdbID) ? (
-              <Chip label={ADDED_TO_FAVOURITES} icon={<FavoriteIcon />} />
+              <Chip
+                label={ADDED_TO_FAVOURITES}
+                variant={"outlined"}
+                icon={<FavoriteIcon />}
+                sx={{ color: "white" }}
+              />
             ) : (
               <Chip
                 label={ADD_FAVOURITES}
+                variant={"outlined"}
                 icon={<FavoriteBorderIcon />}
                 onClick={() => addToFavouritesHandler(details?.imdbID)}
+                sx={{ color: "white" }}
               />
             )}
           </Stack>
-          <p>{PLOT}</p>
-          <p>{details?.Plot}</p>
-          {buildList(actors, CAST)}
-          {buildList(genres, GENRE)}
-          {buildList(directors, DIRECTOR)}
+          <Typography align={"left"} fontSize={14} color={"gray"}>
+            {PLOT}
+          </Typography>
+          <Typography
+            align={"left"}
+            paddingBottom={10}
+            fontSize={14}
+            color={"white"}
+          >
+            {details?.Plot}
+          </Typography>
+          <Box>
+            <Grid container>
+              <Grid item xs={4}>
+                {buildList(actors, CAST)}
+              </Grid>
+              <Grid item xs={4}>
+                {buildList(genres, GENRE)}
+              </Grid>
+              <Grid item xs={4}>
+                {buildList(directors, DIRECTOR)}
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
         <Grid item xs={6}>
           <Card key={details?.imdbID}>
@@ -126,7 +185,7 @@ const MovieDetails = () => {
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
