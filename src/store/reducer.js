@@ -30,7 +30,7 @@ const fetchMoviesFail = (state, action) => {
 };
 
 const addToFavourites = (state, action) => {
-  const newFavouritesArray = state.favourites.push(action.imdbID);
+  const newFavouritesArray = [...state.favourites, action.imdbID];
   return updateObject(state, { favourites: newFavouritesArray });
 };
 

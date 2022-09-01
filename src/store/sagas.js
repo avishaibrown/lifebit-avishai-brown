@@ -1,6 +1,6 @@
 import { put } from "redux-saga/effects";
 import * as actions from "./actions";
-import omdbClient from "../axios";
+import omdbClient from "../services/axios";
 import { API_KEY } from "../utils/constants";
 
 export function* fetchMoviesSaga(action) {
@@ -15,7 +15,7 @@ export function* fetchMoviesSaga(action) {
   }
 }
 
-export function* fetchMovieDetails(action) {
+export function* fetchMovieDetailsSaga(action) {
   yield put(actions.fetchMovieDetailsStart());
   try {
     const url = "/?apiKey=" + API_KEY + "&i=" + action.imdbID;
@@ -26,3 +26,8 @@ export function* fetchMovieDetails(action) {
     yield put(actions.fetchMovieDetailsFail(error));
   }
 }
+
+//TODO: make favourites persistent
+// export function* addToFavouritesSaga(action) {
+//   yield sessionStorage.setItem("imdbID", action.imdbID);
+// }

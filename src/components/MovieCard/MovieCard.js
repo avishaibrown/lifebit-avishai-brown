@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import {
   CardMedia,
@@ -7,37 +9,47 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { NOT_AVAILABLE } from "../../utils/constants";
 
 const MovieCard = (props) => {
   const { setImdbID, movie } = props;
 
-  return (
-    //TODO: Get imdbID appended to link /details/:imdbID
-    //TODO: Update movie card style to include title, year and favourites button
-    //TODO: Read persistent state to check if movie favourites button is filled or not
+  const favourites = useSelector((state) => state.favourites);
 
+  return (
+    //TODO: Update movie card style to include title, year and favourites button
+
+    //TODO: Append imdbID to /details route
     <Link to="/details">
       <Card sx={{ maxWidth: 345 }} key={movie.imdbID}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="194"
-            image={movie.Poster}
+            image={
+              movie.Poster !== NOT_AVAILABLE
+                ? movie.Poster
+                : "./images/No-image-found.jpg"
+            }
             alt="movie"
+            //TODO: handle onKeyPress Enter
             onClick={() => setImdbID(movie.imdbID)}
           />
         </CardActionArea>
         <CardContent>
-          <Typography paragraph>{movie.Title}</Typography>
+          <Typography paragraph noWrap={true}>
+            {movie.Title}
+          </Typography>
           <Typography>{movie.Year}</Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton>
+          {favourites.includes(movie.imdbID) ? (
             <FavoriteIcon />
-          </IconButton>
+          ) : (
+            <FavoriteBorderIcon />
+          )}
         </CardActions>
       </Card>
     </Link>

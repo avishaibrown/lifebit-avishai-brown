@@ -13,7 +13,7 @@ const SearchBar = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
-  //TODO: Get Enter key to Search
+  //TODO: Handle onKeyPress Enter
   // const onKeyDownHandler = (e) => {
   //   if (!!e.target.value && e.keyCode === 13) {
   //     onSearch(searchValue);
@@ -33,6 +33,7 @@ const SearchBar = (props) => {
         autoFocus={true}
         fullWidth={true}
         value={searchValue}
+        disabled={loading}
       />
       {loading ? (
         <Box sx={{ display: "flex", p: "10px" }}>

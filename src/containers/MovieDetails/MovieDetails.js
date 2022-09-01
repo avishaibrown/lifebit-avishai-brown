@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "./../../store/actions";
 import { NavLink } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -11,6 +13,7 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
   IMDB,
   ROTTEN_TOMATOES,
@@ -18,54 +21,33 @@ import {
   CAST,
   GENRE,
   DIRECTOR,
-  FAVOURITES,
+  ADD_FAVOURITES,
+  ADDED_TO_FAVOURITES,
 } from "../../utils/constants";
+import { buildArray, buildList } from "./../../utils/util";
 
-const MovieDetails = (props) => {
-  const { movieDetails } = props;
+const MovieDetails = () => {
+  const details = useSelector((state) => state.details);
+  const ratings = useSelector((state) => state.details.Ratings);
+  const actors = buildArray(useSelector((state) => state.details.Actors));
+  const directors = buildArray(useSelector((state) => state.details.Director));
+  const genres = buildArray(useSelector((state) => state.details.Genre));
+  const favourites = useSelector((state) => state.favourites);
 
-  //TODO: Get all of these variables displayed
   let imdbRating = null;
   let rottenTomatoesRating = null;
-  let actorsArray = [];
-  let directorsArray = [];
-  let genresArray = [];
 
-  const getRatings = useRef(() => {});
-  const getActors = useRef(() => {});
-  const getDirectors = useRef(() => {});
-  const getGenres = useRef(() => {});
+  for (const index in ratings) {
+    const rating = ratings[index];
+    if (rating.Source === IMDB) {
+      imdbRating = rating.Value;
+    } else if (rating.Source === ROTTEN_TOMATOES)
+      rottenTomatoesRating = rating.Value;
+  }
 
-  getRatings.current = () => {
-    for (const index in movieDetails?.Ratings) {
-      const rating = movieDetails?.Ratings[index];
-      if (rating.Source === IMDB) {
-        imdbRating = rating.Value;
-      } else if (rating.Source === ROTTEN_TOMATOES)
-        rottenTomatoesRating = rating.Value;
-    }
-  };
+  const dispatch = useDispatch();
 
-  getActors.current = () => {
-    actorsArray = movieDetails?.Actors.split(", ");
-  };
-
-  getDirectors.current = () => {
-    directorsArray = movieDetails?.Director.split(", ");
-  };
-
-  getDirectors.current = () => {
-    genresArray = movieDetails?.Genre.split(", ");
-  };
-
-  useEffect(() => {
-    movieDetails?.Ratings && getRatings.current();
-    movieDetails?.Actors && getActors.current();
-    movieDetails?.Director && getDirectors.current();
-    movieDetails?.Genre && getGenres.current();
-  }, [movieDetails]);
-
-  //TODO: Change Add To Favourites button to chip, persistently store favourites in array of imdbIDs
+  const addToFavouritesHandler = (id) => dispatch(actions.addToFavourites(id));
 
   //TODO: Fix styling
 
@@ -81,67 +63,50 @@ const MovieDetails = (props) => {
             spacing={2}
             divider={<Divider orientation="vertical" flexItem light={true} />}
           >
-            <p>{movieDetails?.Runtime}</p>
-            <p>{movieDetails?.Year}</p>
-            <p>{movieDetails?.Rated}</p>
+            <p>{details?.Runtime}</p>
+            <p>{details?.Year}</p>
+            <p>{details?.Rated}</p>
           </Stack>
-          <h1 style={{ color: "white" }}>{movieDetails?.Title}</h1>
+          <h1 style={{ color: "white" }}>{details?.Title}</h1>
           <Stack direction="row" spacing={1}>
-            <Chip
-              label="idmb Rating"
-              avatar={<Avatar alt="imdb" src="/images/logo-imdb.png" />}
-            />
-            <Chip
-              label="RT Rating"
-              avatar={
-                <Avatar
-                  alt="rotten tomatoes"
-                  src="/images/logo-rotten-tomatoes.png"
-                />
-              }
-            />
-            <Chip
-              label={FAVOURITES}
-              icon={<FavoriteIcon />}
-              variant="outlined"
-              onClick={() => {}}
-            />
+            {imdbRating && (
+              <Chip
+                label={imdbRating}
+                avatar={<Avatar alt="imdb" src="/images/logo-imdb.png" />}
+              />
+            )}
+            {rottenTomatoesRating && (
+              <Chip
+                label={rottenTomatoesRating}
+                avatar={
+                  <Avatar
+                    alt="rotten tomatoes"
+                    src="/images/logo-rotten-tomatoes.png"
+                  />
+                }
+              />
+            )}
+            {/* TODO: Add remove favourites functionality */}
+            {favourites.includes(details?.imdbID) ? (
+              <Chip label={ADDED_TO_FAVOURITES} icon={<FavoriteIcon />} />
+            ) : (
+              <Chip
+                label={ADD_FAVOURITES}
+                icon={<FavoriteBorderIcon />}
+                onClick={() => addToFavouritesHandler(details?.imdbID)}
+              />
+            )}
           </Stack>
           <p>{PLOT}</p>
-          <p>{movieDetails?.Plot}</p>
-          {actorsArray && (
-            <>
-              <p>{CAST}</p>
-              {actorsArray.map((member) => (
-                <li>{member}</li>
-              ))}
-            </>
-          )}
-          {genresArray && (
-            <>
-              <p>{GENRE}</p>
-              {genresArray.map((member) => (
-                <li>{member}</li>
-              ))}
-            </>
-          )}
-          {directorsArray && (
-            <>
-              <p>{DIRECTOR}</p>
-              {directorsArray.map((member) => (
-                <li>{member}</li>
-              ))}
-            </>
-          )}
+          <p>{details?.Plot}</p>
+          {buildList(actors, CAST)}
+          {buildList(genres, GENRE)}
+          {buildList(directors, DIRECTOR)}
         </Grid>
         <Grid item xs={6}>
-          <Card key={movieDetails?.imdbID}>
+          <Card key={details?.imdbID}>
             <CardActionArea>
-              <CardMedia
-                component="img"
-                image={movieDetails?.Poster}
-                alt="movie"
-              />
+              <CardMedia component="img" image={details?.Poster} alt="movie" />
             </CardActionArea>
           </Card>
         </Grid>

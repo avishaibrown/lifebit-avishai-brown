@@ -9,11 +9,14 @@ export const NO_RESULTS_SECOND_LINE = "Here's an offer you can't refuse";
 export const IMDB = "Internet Movie Database";
 export const ROTTEN_TOMATOES = "Rotten Tomatoes";
 
-export const FAVOURITES = "Add To Favourites";
+export const ADD_FAVOURITES = "Add To Favourites";
+export const ADDED_TO_FAVOURITES = "Added To Favourites";
 export const PLOT = "Plot";
 export const CAST = "Cast";
 export const GENRE = "Genre";
 export const DIRECTOR = "Director";
+
+export const NOT_AVAILABLE = "N/A";
 
 //REDUX-------------
 
