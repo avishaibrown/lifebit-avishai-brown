@@ -64,7 +64,7 @@ const MovieDetails = () => {
       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       open={loading}
     >
-      <CircularProgress />
+      <CircularProgress id={"loading-details"} />
     </Backdrop>
   ) : (
     <>
@@ -142,6 +142,7 @@ const MovieDetails = () => {
                 icon={<FavoriteBorderIcon />}
                 onClick={() => addToFavouritesHandler(details?.imdbID)}
                 sx={{ color: "white" }}
+                id={"add-to-favourites"}
               />
             )}
           </Stack>

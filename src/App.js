@@ -56,7 +56,10 @@ const App = () => {
         element={
           <>
             <Container sx={{ padding: "20px" }}>
-              <SearchBar onSearch={(value) => setSearchTerm(value)} />
+              <SearchBar
+                onSearch={(value) => setSearchTerm(value)}
+                id={"search-bar"}
+              />
             </Container>
             <SearchResults setImdbID={setImdbID} movies={movies} />
           </>
@@ -81,6 +84,7 @@ const App = () => {
           }}
           alt="What's in"
           src="/images/logo.png"
+          id="header-image"
         />
         <Suspense fallback={LOADING}>{routes}</Suspense>
       </Container>

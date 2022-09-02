@@ -23,6 +23,7 @@ const MovieCard = (props) => {
         key={movie?.imdbID}
         onMouseOver={() => setShowOverlay(true)}
         onMouseOut={() => setShowOverlay(false)}
+        id={`movie-card-${movie.imdbID}`}
       >
         <CardActionArea>
           <CardMedia

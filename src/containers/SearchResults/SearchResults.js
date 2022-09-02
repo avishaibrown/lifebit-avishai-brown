@@ -27,6 +27,7 @@ const SearchResults = (props) => {
                 key={movie.imdbID}
                 movie={movie}
                 setImdbID={setImdbID}
+                id={`movie-${movie.imdbID}`}
               />
             </Grid>
           ))}
@@ -37,6 +38,7 @@ const SearchResults = (props) => {
             <img
               src="./images/illustration-empty-state.png"
               alt="empty state"
+              data-testid="empty-state"
             />
             <h3 style={{ color: "white" }}>{NO_RESULTS_FIRST_LINE}</h3>
             <p style={{ color: "grey" }}>{NO_RESULTS_SECOND_LINE}</p>

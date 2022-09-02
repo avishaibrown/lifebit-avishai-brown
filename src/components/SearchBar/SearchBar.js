@@ -34,6 +34,7 @@ const SearchBar = (props) => {
         fullWidth={true}
         value={searchValue}
         disabled={loading}
+        id={"search-bar"}
       />
       {loading ? (
         <Box sx={{ display: "flex", p: "10px" }}>
@@ -44,6 +45,7 @@ const SearchBar = (props) => {
           type="button"
           sx={{ p: "10px" }}
           onClick={() => onSearch(searchValue)}
+          id={"search-icon"}
         >
           <SearchIcon />
         </IconButton>
