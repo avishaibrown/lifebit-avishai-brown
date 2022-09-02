@@ -27,6 +27,7 @@ const MovieCard = (props) => {
         <CardActionArea>
           <CardMedia
             component="img"
+            height={180}
             image={
               movie?.Poster === NOT_AVAILABLE
                 ? "./images/No-image-found.jpg"
