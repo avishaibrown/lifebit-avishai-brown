@@ -13,13 +13,6 @@ const SearchBar = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
-  //TODO: Handle onKeyPress Enter
-  // const onKeyDownHandler = (e) => {
-  //   if (!!e.target.value && e.keyCode === 13) {
-  //     onSearch(searchValue);
-  //   }
-  // };
-
   return (
     <Paper
       component="form"
@@ -29,7 +22,6 @@ const SearchBar = (props) => {
         sx={{ ml: 1, flex: 1 }}
         placeholder={SEARCH_BAR_PLACEHOLDER}
         onChange={(e) => setSearchValue(e.target.value)}
-        // onKeyDown={(e) => onKeyDownHandler(e)}
         autoFocus={true}
         fullWidth={true}
         value={searchValue}

@@ -127,7 +127,6 @@ const MovieDetails = () => {
                 sx={{ color: "white" }}
               />
             )}
-            {/* TODO: Add remove favourites functionality */}
             {favourites.includes(details?.imdbID) ? (
               <Chip
                 label={ADDED_TO_FAVOURITES}

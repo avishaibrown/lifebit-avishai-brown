@@ -16,7 +16,6 @@ const MovieCard = (props) => {
   const favourites = useSelector((state) => state.favourites);
 
   return (
-    //TODO: Append imdbID to /details route
     <Link to="/details">
       <Card
         sx={{ maxWidth: 345 }}
@@ -34,7 +33,6 @@ const MovieCard = (props) => {
                 : movie.Poster
             }
             alt="movie"
-            //TODO: handle onKeyPress Enter
             onClick={() => setImdbID(movie.imdbID)}
           />
           {showOverlay && (
